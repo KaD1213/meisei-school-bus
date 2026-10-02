@@ -115,7 +115,7 @@ function renderSchedule(date) {
     box.innerHTML = '<div class="empty-state">学校出発時刻を確認できません。公式PDFをご確認ください。</div>';
     return;
   }
-  let html = scheduleSection("下校 · 学校出発時刻", trips);
+  let html = scheduleSection("学校出発", trips);
   if (status === "unknown") html += '<div class="empty-state" style="padding-top:14px">変更案内が未確認のため、通常ダイヤを参考表示しています。</div>';
   box.innerHTML = html;
 }
@@ -128,10 +128,12 @@ function renderCalendar() {
   const first = new Date(year, monthIndex, 1);
   const mondayOffset = (first.getDay() + 6) % 7;
   const start = addDays(first, -mondayOffset);
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+  const visibleWeeks = Math.ceil((mondayOffset + daysInMonth) / 7);
   const calendar = $("calendar");
   calendar.replaceChildren();
 
-  for (let i = 0; i < 42; i++) {
+  for (let i = 0; i < visibleWeeks * 7; i++) {
     const date = addDays(start, i);
     const info = getDayInfo(date);
     const status = normalizedStatus(info);

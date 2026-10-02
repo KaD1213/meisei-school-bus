@@ -465,3 +465,53 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(0, 122, 255, .42
 .hero-head h2.hero-mode.unknown { color: #776c5d; font-size: 40px; }
 .hero-head h2.hero-mode.changed { color: #c77700; font-size: 40px; }
 .hero-head .status-pill.changed { margin-top: 22px; }
+
+/* Compact phone layout: calendar plus the selected day's bus and departures. */
+.app-shell {
+  padding-top: max(10px, env(safe-area-inset-top));
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+}
+.topbar { margin: 0 4px 8px; }
+#monthView { padding: 12px; margin-bottom: 10px; }
+.month-head .month-nav { width: 34px; height: 34px; }
+.weekdays, .calendar { gap: 4px; }
+.weekdays { margin-top: 8px; margin-bottom: 3px; }
+.day { aspect-ratio: auto; height: clamp(34px, 9.5vw, 40px); padding: 3px 2px; }
+.day .mini-status { left: 4px; right: 4px; bottom: 4px; height: 4px; }
+.day.has-change::after { width: 7px; height: 7px; top: 4px; right: 4px; }
+.legend { margin-top: 8px; gap: 6px 9px; font-size: 9px; }
+.schedule-card { padding: 14px; margin-bottom: 10px; }
+.schedule-card .hero-head h2.hero-mode { font-size: clamp(44px, 12vw, 56px); }
+.schedule-card .hero-head .status-pill.changed { margin-top: 15px; }
+.schedule-card .hero-details { margin-top: 6px; font-size: 11px; line-height: 1.35; }
+.schedule-card .hero-details:empty { display: none; }
+.schedule-card .source-link { margin-top: 6px; font-size: 11px; }
+.schedule-card .schedule-block { margin-top: 9px; }
+.schedule-card .schedule-heading { margin-bottom: 5px; font-size: 10px; }
+.schedule-card .time-chips { grid-template-columns: 1fr; gap: 4px; }
+.schedule-card .time-chip {
+  display: flex;
+  min-height: 34px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+.schedule-card .chip-label { font-size: 10px; line-height: 1; }
+.schedule-card .chip-time { margin-top: 0; font-size: 17px; line-height: 1.1; }
+.schedule-card .empty-state { padding: 8px 4px 2px; font-size: 11px; line-height: 1.4; }
+.disclaimer { margin-top: 8px; font-size: 9px; }
+
+@media (max-width: 420px) and (max-height: 740px) {
+  .app-shell { padding-top: max(7px, env(safe-area-inset-top)); }
+  .topbar { margin-bottom: 6px; }
+  .topbar h1 { font-size: 23px; }
+  #monthView { padding: 10px; }
+  .day { height: 33px; }
+  .legend { margin-top: 6px; }
+  .schedule-card { padding: 12px; }
+  .schedule-card .hero-head h2.hero-mode { font-size: 44px; }
+  .schedule-card .schedule-block { margin-top: 6px; }
+}
