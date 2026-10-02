@@ -147,9 +147,10 @@ function renderCalendar() {
     if (iso(date) === iso(state.selectedDate)) button.classList.add("selected");
     if (status === "changed") button.classList.add("has-change");
     const modeClass = info.mode ? `mode-${String(info.mode).toLowerCase()}` : status;
+    const changeMark = status === "changed" ? '<i class="change-marker" aria-hidden="true"></i>' : "";
     button.setAttribute("aria-label", `${jpDate(date)}、${statusLabel(info)}`);
     button.setAttribute("aria-pressed", String(iso(date) === iso(state.selectedDate)));
-    button.innerHTML = `<span class="num">${date.getDate()}</span><span class="mini-status ${modeClass}"></span>`;
+    button.innerHTML = `<span class="day-label"><span class="num">${date.getDate()}</span>${changeMark}</span><span class="mini-status ${modeClass}"></span>`;
     button.addEventListener("click", () => {
       state.selectedDate = date;
       state.shownMonth = new Date(date.getFullYear(), date.getMonth(), 1);
