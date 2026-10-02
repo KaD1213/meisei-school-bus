@@ -1,0 +1,9 @@
+{
+  "name": "スクールバス 時刻表",
+  "short_name": "スクールバス",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f2f2f7",
+  "theme_color": "#f2f2f7",
+  "lang": "ja"
+}

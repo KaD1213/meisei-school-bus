@@ -1,0 +1,673 @@
+{
+  "schema": 1,
+  "generated_at": "2026-10-02T16:20:00+00:00",
+  "source_site": "https://www.fgmeisei.ed.jp/",
+  "routes": {
+    "hainan": {
+      "name": "榛南線",
+      "coverage_month": "2026-10",
+      "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+      "stops": [
+        "藤枝駅南口",
+        "御前崎車庫前",
+        "御前崎役場",
+        "新谷",
+        "遠渡",
+        "地頭方海岸",
+        "波津１丁目（旧相良車庫前）",
+        "太田浜",
+        "片浜",
+        "榛原車庫前",
+        "静波二丁目",
+        "細江小学校前",
+        "榛原病院前",
+        "住吉神社前",
+        "吉田団地前",
+        "川尻吉田中央小前",
+        "片岡",
+        "下神戸",
+        "東名吉田インター",
+        "JA大井川初倉支所",
+        "静銀初倉支店"
+      ],
+      "base": {
+        "weekday": {
+          "to_school": [
+            {
+              "label": "1便",
+              "stops": {
+                "波津１丁目（旧相良車庫前）": "6:15",
+                "太田浜": "6:19",
+                "片浜": "6:22",
+                "榛原車庫前": "6:26",
+                "静波二丁目": "6:29",
+                "細江小学校前": "6:33",
+                "榛原病院前": "6:35",
+                "住吉神社前": "6:40",
+                "吉田団地前": "6:43",
+                "川尻吉田中央小前": "6:46",
+                "片岡": "6:48",
+                "下神戸": "6:52",
+                "東名吉田インター": "6:56",
+                "JA大井川初倉支所": "7:03",
+                "静銀初倉支店": "7:07",
+                "?????": "???"
+              }
+            },
+            {
+              "label": "2便",
+              "stops": {
+                "御前崎車庫前": "6:00",
+                "御前崎役場": "6:04",
+                "新谷": "6:06",
+                "遠渡": "6:08",
+                "地頭方海岸": "6:14",
+                "波津１丁目（旧相良車庫前）": "6:22",
+                "太田浜": "6:25",
+                "片浜": "6:28",
+                "榛原車庫前": "6:32",
+                "静波二丁目": "6:35",
+                "細江小学校前": "6:38",
+                "榛原病院前": "6:41",
+                "住吉神社前": "6:45",
+                "吉田団地前": "6:48",
+                "川尻吉田中央小前": "6:50",
+                "片岡": "6:53",
+                "下神戸": "6:56"
+              }
+            }
+          ],
+          "from_school": [
+            {
+              "label": "1便",
+              "school_departure": "16:10",
+              "stops": {
+                "JA大井川初倉支所": "16:42",
+                "静銀初倉支店": "16:45",
+                "東名吉田インター": "16:48",
+                "下神戸": "16:53",
+                "片岡": "16:56",
+                "川尻吉田中央小前": "16:59",
+                "吉田団地前": "17:01",
+                "住吉神社前": "17:04",
+                "榛原病院前": "17:09",
+                "細江小学校前": "17:11",
+                "静波二丁目": "17:14",
+                "榛原車庫前": "17:16",
+                "片浜": "17:20",
+                "太田浜": "17:23",
+                "波津１丁目（旧相良車庫前）": "17:27",
+                "地頭方海岸": "17:35",
+                "遠渡": "17:38",
+                "新谷": "17:40",
+                "御前崎役場": "17:41",
+                "御前崎車庫前": "17:45"
+              }
+            },
+            {
+              "label": "2便",
+              "school_departure": "17:30",
+              "stops": {
+                "JA大井川初倉支所": "18:02",
+                "静銀初倉支店": "18:05",
+                "東名吉田インター": "18:08",
+                "下神戸": "18:13",
+                "片岡": "18:16",
+                "川尻吉田中央小前": "18:19",
+                "吉田団地前": "18:21",
+                "住吉神社前": "18:24",
+                "榛原病院前": "18:29",
+                "細江小学校前": "18:31",
+                "静波二丁目": "18:34",
+                "榛原車庫前": "18:36",
+                "片浜": "18:40",
+                "太田浜": "18:43",
+                "波津１丁目（旧相良車庫前）": "18:47",
+                "地頭方海岸": "18:55",
+                "遠渡": "18:58",
+                "新谷": "19:00",
+                "御前崎役場": "19:01",
+                "御前崎車庫前": "19:05"
+              }
+            },
+            {
+              "label": "3便",
+              "school_departure": "19:20",
+              "stops": {
+                "JA大井川初倉支所": "19:52",
+                "静銀初倉支店": "19:55",
+                "東名吉田インター": "19:58",
+                "下神戸": "20:03",
+                "片岡": "20:06",
+                "川尻吉田中央小前": "20:09",
+                "吉田団地前": "20:11",
+                "住吉神社前": "20:14",
+                "榛原病院前": "20:19",
+                "細江小学校前": "20:21",
+                "静波二丁目": "20:24",
+                "榛原車庫前": "20:26",
+                "片浜": "20:30",
+                "太田浜": "20:33",
+                "波津１丁目（旧相良車庫前）": "20:37",
+                "地頭方海岸": "20:45",
+                "遠渡": "20:48",
+                "新谷": "20:50",
+                "御前崎役場": "20:51",
+                "御前崎車庫前": "20:55"
+              }
+            }
+          ]
+        },
+        "saturday_school": {
+          "to_school": [],
+          "from_school": [
+            {
+              "label": "1便",
+              "school_departure": "12:10",
+              "stops": {
+                "JA大井川初倉支所": "12:43",
+                "静銀初倉支店": "12:46",
+                "東名吉田インター": "12:49",
+                "下神戸": "12:54",
+                "片岡": "12:57",
+                "川尻吉田中央小前": "13:00",
+                "吉田団地前": "13:02",
+                "住吉神社前": "13:05",
+                "榛原病院前": "13:10",
+                "細江小学校前": "13:12",
+                "静波二丁目": "13:15",
+                "榛原車庫前": "13:17",
+                "片浜": "13:21",
+                "太田浜": "13:24",
+                "波津１丁目（旧相良車庫前）": "13:28",
+                "地頭方海岸": "13:36",
+                "遠渡": "13:39",
+                "新谷": "13:41",
+                "御前崎役場": "13:42",
+                "御前崎車庫前": "13:46"
+              }
+            },
+            {
+              "label": "2便",
+              "school_departure": "16:30",
+              "stops": {
+                "JA大井川初倉支所": "17:05",
+                "静銀初倉支店": "17:08",
+                "東名吉田インター": "17:11",
+                "下神戸": "17:16",
+                "片岡": "17:19",
+                "川尻吉田中央小前": "17:22",
+                "吉田団地前": "17:24",
+                "住吉神社前": "17:27",
+                "榛原病院前": "17:32",
+                "細江小学校前": "17:34",
+                "静波二丁目": "17:37",
+                "榛原車庫前": "17:39",
+                "片浜": "17:43",
+                "太田浜": "17:46",
+                "波津１丁目（旧相良車庫前）": "17:50",
+                "地頭方海岸": "17:58",
+                "遠渡": "18:01",
+                "新谷": "18:03",
+                "御前崎役場": "18:04",
+                "御前崎車庫前": "18:08"
+              }
+            },
+            {
+              "label": "3便",
+              "school_departure": "18:00",
+              "stops": {
+                "JA大井川初倉支所": "18:34",
+                "静銀初倉支店": "18:37",
+                "東名吉田インター": "18:40",
+                "下神戸": "18:45",
+                "片岡": "18:48",
+                "川尻吉田中央小前": "18:51",
+                "吉田団地前": "18:53",
+                "住吉神社前": "18:56",
+                "榛原病院前": "19:01",
+                "細江小学校前": "19:03",
+                "静波二丁目": "19:06",
+                "榛原車庫前": "19:08",
+                "片浜": "19:12",
+                "太田浜": "19:15",
+                "波津１丁目（旧相良車庫前）": "19:19",
+                "地頭方海岸": "19:27",
+                "遠渡": "19:30",
+                "新谷": "19:32",
+                "御前崎役場": "19:33",
+                "御前崎車庫前": "19:37"
+              }
+            }
+          ]
+        },
+        "saturday_no_school": {
+          "to_school": [
+            {
+              "label": "1便",
+              "stops": {
+                "御前崎車庫前": "6:00",
+                "御前崎役場": "6:04",
+                "新谷": "6:06",
+                "遠渡": "6:08",
+                "地頭方海岸": "6:14",
+                "波津１丁目（旧相良車庫前）": "6:22",
+                "太田浜": "6:25",
+                "片浜": "6:28",
+                "榛原車庫前": "6:32",
+                "静波二丁目": "6:35",
+                "細江小学校前": "6:38",
+                "榛原病院前": "6:41",
+                "住吉神社前": "6:45",
+                "吉田団地前": "6:48",
+                "川尻吉田中央小前": "6:50",
+                "片岡": "6:53",
+                "下神戸": "6:56",
+                "東名吉田インター": "7:00",
+                "JA大井川初倉支所": "7:04",
+                "静銀初倉支店": "7:09"
+              }
+            }
+          ],
+          "from_school": [
+            {
+              "label": "1便",
+              "school_departure": "13:10",
+              "stops": {
+                "JA大井川初倉支所": "13:45",
+                "静銀初倉支店": "13:48",
+                "東名吉田インター": "13:51",
+                "下神戸": "13:56",
+                "片岡": "13:59",
+                "川尻吉田中央小前": "14:02",
+                "吉田団地前": "14:04",
+                "住吉神社前": "14:07",
+                "榛原病院前": "14:12",
+                "細江小学校前": "14:14",
+                "静波二丁目": "14:17",
+                "榛原車庫前": "14:19",
+                "片浜": "14:23",
+                "太田浜": "14:26",
+                "波津１丁目（旧相良車庫前）": "14:30",
+                "地頭方海岸": "14:38",
+                "遠渡": "14:41",
+                "新谷": "14:43",
+                "御前崎役場": "14:44",
+                "御前崎車庫前": "14:48"
+              }
+            },
+            {
+              "label": "2便",
+              "school_departure": "17:30",
+              "stops": {
+                "JA大井川初倉支所": "18:00",
+                "静銀初倉支店": "18:03",
+                "東名吉田インター": "18:06",
+                "下神戸": "18:11",
+                "片岡": "18:14",
+                "川尻吉田中央小前": "18:17",
+                "吉田団地前": "18:19",
+                "住吉神社前": "18:22",
+                "榛原病院前": "18:27",
+                "細江小学校前": "18:29",
+                "静波二丁目": "18:32",
+                "榛原車庫前": "18:34",
+                "片浜": "18:38",
+                "太田浜": "18:41",
+                "波津１丁目（旧相良車庫前）": "18:45",
+                "地頭方海岸": "18:53",
+                "遠渡": "18:56",
+                "新谷": "18:58",
+                "御前崎役場": "18:59",
+                "御前崎車庫前": "19:03"
+              }
+            }
+          ]
+        }
+      },
+      "overrides": {
+        "2026-10-01": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-02": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-03": {
+          "status": "special",
+          "mode": "C",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-04": {
+          "status": "no_service",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-05": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-06": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-07": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-08": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-09": {
+          "status": "changed",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+          "note": "変更後の明誠高校出発は3便です。",
+          "departures": [
+            "13:15",
+            "17:10",
+            "19:20"
+          ]
+        },
+        "2026-10-10": {
+          "status": "special",
+          "mode": "D",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-11": {
+          "status": "no_service",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-12": {
+          "status": "no_service",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-13": {
+          "status": "changed",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+          "note": "変更後の明誠高校出発は2便です。1便目は学校を通過します。",
+          "departures": [
+            "17:10",
+            "19:20"
+          ]
+        },
+        "2026-10-14": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-15": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-16": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-17": {
+          "status": "special",
+          "mode": "C",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-18": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+          "note": "しらうめ祭のためA便運行"
+        },
+        "2026-10-19": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-20": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-21": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-22": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-23": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-24": {
+          "status": "special",
+          "mode": "C",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-25": {
+          "status": "no_service",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-26": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-27": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-28": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-29": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-30": {
+          "status": "special",
+          "mode": "A",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        },
+        "2026-10-31": {
+          "status": "special",
+          "mode": "C",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+        }
+      },
+      "topic_url": "https://www.fgmeisei.ed.jp/topics/13052/",
+      "parser_status": "ok",
+      "months": {
+        "2026-10": {
+          "coverage_month": "2026-10",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+          "topic_url": "https://www.fgmeisei.ed.jp/topics/13052/",
+          "overrides": {
+            "2026-10-01": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-02": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-03": {
+              "status": "special",
+              "mode": "C",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-04": {
+              "status": "no_service",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-05": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-06": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-07": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-08": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-09": {
+              "status": "changed",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+              "note": "変更後の明誠高校出発は3便です。",
+              "departures": [
+                "13:15",
+                "17:10",
+                "19:20"
+              ]
+            },
+            "2026-10-10": {
+              "status": "special",
+              "mode": "D",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-11": {
+              "status": "no_service",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-12": {
+              "status": "no_service",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-13": {
+              "status": "changed",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+              "note": "変更後の明誠高校出発は2便です。1便目は学校を通過します。",
+              "departures": [
+                "17:10",
+                "19:20"
+              ]
+            },
+            "2026-10-14": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-15": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-16": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-17": {
+              "status": "special",
+              "mode": "C",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-18": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+              "note": "しらうめ祭のためA便運行"
+            },
+            "2026-10-19": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-20": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-21": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-22": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-23": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-24": {
+              "status": "special",
+              "mode": "C",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-25": {
+              "status": "no_service",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-26": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-27": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-28": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-29": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-30": {
+              "status": "special",
+              "mode": "A",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            },
+            "2026-10-31": {
+              "status": "special",
+              "mode": "C",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
+            }
+          },
+          "parser_status": "verified_calendar_image"
+        }
+      }
+    }
+  },
+  "last_topic_title": "2026年9月30日 学園 【スクールバス】10月変更案内",
+  "last_topic_url": "https://www.fgmeisei.ed.jp/topics/13052/",
+  "update_errors": []
+}
