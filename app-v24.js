@@ -140,6 +140,8 @@ function renderCalendar() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "day";
+    if (date.getDay() === 0) button.classList.add("sunday");
+    if (date.getDay() === 6) button.classList.add("saturday");
     if (date.getMonth() !== monthIndex) button.classList.add("outside");
     if (iso(date) === iso(new Date())) button.classList.add("today");
     if (iso(date) === iso(state.selectedDate)) button.classList.add("selected");
