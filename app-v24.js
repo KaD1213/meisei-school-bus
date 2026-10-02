@@ -52,11 +52,21 @@ function getSchoolDepartures(info) {
 
 function renderHero(date) {
   const info = getDayInfo(date);
+  const status = normalizedStatus(info);
   $("heroDate").textContent = jpDate(date);
-  $("heroTitle").textContent = routeData().name || "スクールバスの予定";
+  const heroTitle = $("heroTitle");
+  const mode = String(info.mode || "").toUpperCase();
+  heroTitle.textContent = mode
+    ? `${mode}便`
+    : status === "none" ? "運休"
+    : status === "normal" ? "通常運行"
+    : status === "changed" ? "変更あり"
+    : "未確認";
+  heroTitle.className = `hero-mode ${mode ? `mode-${mode.toLowerCase()}` : status}`;
+
   const pill = $("heroStatus");
-  pill.className = `status-pill ${normalizedStatus(info)}`;
-  pill.textContent = statusLabel(info);
+  pill.className = `status-pill changed${status === "changed" && mode ? "" : " hidden"}`;
+  pill.textContent = status === "changed" && mode ? "変更あり" : "";
   $("heroDetails").textContent = info.note || "";
 
   const month = routeData().months?.[monthKey(date)] || routeData();

@@ -448,3 +448,20 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(0, 122, 255, .42
 @media (prefers-reduced-motion: no-preference) {
   .month-nav, .day, .source-link { transition: opacity .12s ease, background-color .12s ease; }
 }
+
+/* Make the selected day's bus run the focus of the middle card. */
+.hero-head h2.hero-mode {
+  margin-top: 2px;
+  font-size: clamp(48px, 14vw, 64px);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -.055em;
+}
+.hero-head h2.hero-mode.mode-a { color: #007aff; }
+.hero-head h2.hero-mode.mode-b { color: #248a3d; }
+.hero-head h2.hero-mode.mode-c { color: #8944c7; }
+.hero-head h2.hero-mode.mode-d { color: #b76500; }
+.hero-head h2.hero-mode.none { color: #8e8e93; font-size: 40px; }
+.hero-head h2.hero-mode.unknown { color: #776c5d; font-size: 40px; }
+.hero-head h2.hero-mode.changed { color: #c77700; font-size: 40px; }
+.hero-head .status-pill.changed { margin-top: 22px; }
