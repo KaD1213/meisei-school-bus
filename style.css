@@ -491,16 +491,16 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(0, 122, 255, .42
 .schedule-card .time-chips { grid-template-columns: 1fr; gap: 4px; }
 .schedule-card .time-chip {
   display: flex;
-  min-height: 34px;
+  min-height: 60px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1px;
-  padding: 3px 8px;
+  gap: 3px;
+  padding: 7px 8px;
   border-radius: 10px;
 }
-.schedule-card .chip-label { font-size: 10px; line-height: 1; }
-.schedule-card .chip-time { margin-top: 0; font-size: 17px; line-height: 1.1; }
+.schedule-card .chip-label { font-size: 12px; line-height: 1.1; }
+.schedule-card .chip-time { margin-top: 0; font-size: 22px; line-height: 1.15; }
 .schedule-card .empty-state { padding: 8px 4px 2px; font-size: 11px; line-height: 1.4; }
 .disclaimer { margin-top: 8px; font-size: 9px; }
 
@@ -509,9 +509,9 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(0, 122, 255, .42
   .topbar { margin-bottom: 6px; }
   .topbar h1 { font-size: 23px; }
   #monthView { padding: 10px; }
-  .day { height: 33px; }
+  .day { height: 35px; }
   .legend { margin-top: 6px; }
-  .schedule-card { padding: 12px; }
+  .schedule-card { padding: 14px; }
   .schedule-card .hero-head h2.hero-mode { font-size: 44px; }
   .schedule-card .schedule-block { margin-top: 6px; }
 }
