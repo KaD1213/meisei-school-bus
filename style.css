@@ -472,16 +472,17 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(0, 122, 255, .42
   padding-bottom: max(10px, env(safe-area-inset-bottom));
 }
 .topbar { margin: 0 4px 8px; }
-#monthView { padding: 12px; margin-bottom: 10px; }
-.month-head .month-nav { width: 34px; height: 34px; }
-.weekdays, .calendar { gap: 4px; }
-.weekdays { margin-top: 8px; margin-bottom: 3px; }
-.day { aspect-ratio: auto; height: clamp(34px, 9.5vw, 40px); padding: 3px 2px; }
-.day .mini-status { left: 4px; right: 4px; bottom: 4px; height: 4px; }
+#monthView { padding: 14px; margin-bottom: 10px; }
+.month-head .month-nav { width: 36px; height: 36px; }
+.weekdays, .calendar { gap: 5px; }
+.weekdays { margin-top: 10px; margin-bottom: 6px; font-size: 12px; }
+.day { aspect-ratio: auto; height: clamp(40px, 11vw, 46px); padding: 5px 3px; }
+.day .num { font-size: 13px; }
+.day .mini-status { left: 5px; right: 5px; bottom: 5px; height: 5px; }
 .day.has-change::after { width: 7px; height: 7px; top: 4px; right: 4px; }
-.legend { margin-top: 8px; gap: 6px 9px; font-size: 9px; }
+.legend { margin-top: 9px; gap: 8px 10px; font-size: 10px; }
 .schedule-card { padding: 14px; margin-bottom: 10px; }
-.schedule-card .hero-head h2.hero-mode { font-size: clamp(44px, 12vw, 56px); }
+.schedule-card .hero-head h2.hero-mode { font-size: clamp(38px, 10vw, 42px); }
 .schedule-card .hero-head .status-pill.changed { margin-top: 15px; }
 .schedule-card .hero-details { margin-top: 6px; font-size: 11px; line-height: 1.35; }
 .schedule-card .hero-details:empty { display: none; }
@@ -508,10 +509,10 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(0, 122, 255, .42
   .app-shell { padding-top: max(7px, env(safe-area-inset-top)); }
   .topbar { margin-bottom: 6px; }
   .topbar h1 { font-size: 23px; }
-  #monthView { padding: 10px; }
-  .day { height: 35px; }
+  #monthView { padding: 12px; }
+  .day { height: 38px; }
   .legend { margin-top: 6px; }
   .schedule-card { padding: 14px; }
-  .schedule-card .hero-head h2.hero-mode { font-size: 44px; }
+  .schedule-card .hero-head h2.hero-mode { font-size: 38px; }
   .schedule-card .schedule-block { margin-top: 6px; }
 }
