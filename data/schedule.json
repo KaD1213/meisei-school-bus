@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-02T16:20:00+00:00",
+  "generated_at": "2026-10-02T21:30:00.329732+00:00",
   "source_site": "https://www.fgmeisei.ed.jp/",
   "routes": {
     "hainan": {
@@ -326,6 +326,55 @@
         }
       },
       "overrides": {
+        "2026-10-09": {
+          "status": "changed",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+          "note": "変更後の明誠高校出発は3便です。",
+          "departures": [
+            "13:15",
+            "17:10",
+            "19:20"
+          ]
+        },
+        "2026-10-03": {
+          "status": "changed",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+          "note": "下校時刻変更あり。時刻は公式PDFを確認してください。"
+        },
+        "2026-10-17": {
+          "status": "changed",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+          "note": "下校時刻変更あり。時刻は公式PDFを確認してください。"
+        },
+        "2026-10-24": {
+          "status": "changed",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+          "note": "下校時刻変更あり。時刻は公式PDFを確認してください。"
+        },
+        "2026-10-31": {
+          "status": "changed",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+          "note": "下校時刻変更あり。時刻は公式PDFを確認してください。"
+        },
+        "2026-10-10": {
+          "status": "special",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+          "mode": "D"
+        },
+        "2026-10-18": {
+          "status": "special",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+          "mode": "A"
+        },
+        "2026-10-13": {
+          "status": "changed",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+          "note": "下校時刻変更あり。時刻は公式PDFを確認してください。",
+          "departures": [
+            "17:10",
+            "19:20"
+          ]
+        },
         "2026-10-01": {
           "status": "special",
           "mode": "A",
@@ -334,11 +383,6 @@
         "2026-10-02": {
           "status": "special",
           "mode": "A",
-          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-        },
-        "2026-10-03": {
-          "status": "special",
-          "mode": "C",
           "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
         },
         "2026-10-04": {
@@ -365,22 +409,6 @@
           "mode": "A",
           "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
         },
-        "2026-10-09": {
-          "status": "changed",
-          "mode": "A",
-          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
-          "note": "変更後の明誠高校出発は3便です。",
-          "departures": [
-            "13:15",
-            "17:10",
-            "19:20"
-          ]
-        },
-        "2026-10-10": {
-          "status": "special",
-          "mode": "D",
-          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-        },
         "2026-10-11": {
           "status": "no_service",
           "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
@@ -388,16 +416,6 @@
         "2026-10-12": {
           "status": "no_service",
           "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-        },
-        "2026-10-13": {
-          "status": "changed",
-          "mode": "A",
-          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
-          "note": "変更後の明誠高校出発は2便です。1便目は学校を通過します。",
-          "departures": [
-            "17:10",
-            "19:20"
-          ]
         },
         "2026-10-14": {
           "status": "special",
@@ -413,17 +431,6 @@
           "status": "special",
           "mode": "A",
           "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-        },
-        "2026-10-17": {
-          "status": "special",
-          "mode": "C",
-          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-        },
-        "2026-10-18": {
-          "status": "special",
-          "mode": "A",
-          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
-          "note": "しらうめ祭のためA便運行"
         },
         "2026-10-19": {
           "status": "special",
@@ -448,11 +455,6 @@
         "2026-10-23": {
           "status": "special",
           "mode": "A",
-          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-        },
-        "2026-10-24": {
-          "status": "special",
-          "mode": "C",
           "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
         },
         "2026-10-25": {
@@ -483,11 +485,6 @@
           "status": "special",
           "mode": "A",
           "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-        },
-        "2026-10-31": {
-          "status": "special",
-          "mode": "C",
-          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
         }
       },
       "topic_url": "https://www.fgmeisei.ed.jp/topics/13052/",
@@ -498,6 +495,55 @@
           "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
           "topic_url": "https://www.fgmeisei.ed.jp/topics/13052/",
           "overrides": {
+            "2026-10-09": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+              "note": "変更後の明誠高校出発は3便です。",
+              "departures": [
+                "13:15",
+                "17:10",
+                "19:20"
+              ]
+            },
+            "2026-10-03": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。"
+            },
+            "2026-10-17": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。"
+            },
+            "2026-10-24": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。"
+            },
+            "2026-10-31": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。"
+            },
+            "2026-10-10": {
+              "status": "special",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+              "mode": "D"
+            },
+            "2026-10-18": {
+              "status": "special",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+              "mode": "A"
+            },
+            "2026-10-13": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。",
+              "departures": [
+                "17:10",
+                "19:20"
+              ]
+            },
             "2026-10-01": {
               "status": "special",
               "mode": "A",
@@ -506,11 +552,6 @@
             "2026-10-02": {
               "status": "special",
               "mode": "A",
-              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-            },
-            "2026-10-03": {
-              "status": "special",
-              "mode": "C",
               "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
             },
             "2026-10-04": {
@@ -537,22 +578,6 @@
               "mode": "A",
               "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
             },
-            "2026-10-09": {
-              "status": "changed",
-              "mode": "A",
-              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
-              "note": "変更後の明誠高校出発は3便です。",
-              "departures": [
-                "13:15",
-                "17:10",
-                "19:20"
-              ]
-            },
-            "2026-10-10": {
-              "status": "special",
-              "mode": "D",
-              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-            },
             "2026-10-11": {
               "status": "no_service",
               "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
@@ -560,16 +585,6 @@
             "2026-10-12": {
               "status": "no_service",
               "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-            },
-            "2026-10-13": {
-              "status": "changed",
-              "mode": "A",
-              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
-              "note": "変更後の明誠高校出発は2便です。1便目は学校を通過します。",
-              "departures": [
-                "17:10",
-                "19:20"
-              ]
             },
             "2026-10-14": {
               "status": "special",
@@ -585,17 +600,6 @@
               "status": "special",
               "mode": "A",
               "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-            },
-            "2026-10-17": {
-              "status": "special",
-              "mode": "C",
-              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-            },
-            "2026-10-18": {
-              "status": "special",
-              "mode": "A",
-              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf",
-              "note": "しらうめ祭のためA便運行"
             },
             "2026-10-19": {
               "status": "special",
@@ -620,11 +624,6 @@
             "2026-10-23": {
               "status": "special",
               "mode": "A",
-              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-            },
-            "2026-10-24": {
-              "status": "special",
-              "mode": "C",
               "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
             },
             "2026-10-25": {
@@ -655,19 +654,163 @@
               "status": "special",
               "mode": "A",
               "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
-            },
-            "2026-10-31": {
-              "status": "special",
-              "mode": "C",
-              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年10月-順心作成.pdf"
             }
           },
-          "parser_status": "verified_calendar_image"
+          "parser_status": "ok"
+        },
+        "2026-09": {
+          "coverage_month": "2026-09",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年9月-順心作成-.pdf",
+          "topic_url": "https://www.fgmeisei.ed.jp/topics/12891/",
+          "overrides": {
+            "2026-09-28": {
+              "status": "special",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年9月-順心作成-.pdf",
+              "mode": "B"
+            },
+            "2026-09-30": {
+              "status": "special",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年9月-順心作成-.pdf",
+              "mode": "B"
+            },
+            "2026-09-12": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年9月-順心作成-.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。",
+              "departures": [
+                "13:30",
+                "17:30",
+                "19:20",
+                "17:30",
+                "19:20"
+              ]
+            },
+            "2026-09-26": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年9月-順心作成-.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。",
+              "departures": [
+                "13:30",
+                "17:30",
+                "19:20",
+                "17:30",
+                "19:20"
+              ]
+            },
+            "2026-09-10": {
+              "status": "no_service",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年9月-順心作成-.pdf"
+            },
+            "2026-09-21": {
+              "status": "no_service",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年9月-順心作成-.pdf"
+            },
+            "2026-09-22": {
+              "status": "no_service",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年9月-順心作成-.pdf"
+            },
+            "2026-09-23": {
+              "status": "no_service",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年9月-順心作成-.pdf"
+            },
+            "2026-09-29": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年9月-順心作成-.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。",
+              "departures": [
+                "13:00",
+                "17:30",
+                "19:20"
+              ]
+            }
+          },
+          "parser_status": "ok"
+        },
+        "2026-08": {
+          "coverage_month": "2026-08",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年8月-順心作成-1.pdf",
+          "topic_url": "https://www.fgmeisei.ed.jp/topics/12877/",
+          "overrides": {
+            "2026-08-11": {
+              "status": "no_service",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年8月-順心作成-1.pdf"
+            }
+          },
+          "parser_status": "ok"
+        },
+        "2026-07": {
+          "coverage_month": "2026-07",
+          "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年7月-順心作成-1.pdf",
+          "topic_url": "https://www.fgmeisei.ed.jp/topics/12729/",
+          "overrides": {
+            "2026-07-11": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年7月-順心作成-1.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。"
+            },
+            "2026-07-21": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年7月-順心作成-1.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。"
+            },
+            "2026-07-25": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年7月-順心作成-1.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。"
+            },
+            "2026-07-27": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年7月-順心作成-1.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。"
+            },
+            "2026-07-31": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年7月-順心作成-1.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。"
+            },
+            "2026-07-17": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年7月-順心作成-1.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。",
+              "departures": [
+                "13:17",
+                "16:27",
+                "19:37",
+                "13:00",
+                "16:10",
+                "19:20"
+              ]
+            },
+            "2026-07-04": {
+              "status": "special",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年7月-順心作成-1.pdf",
+              "mode": "C"
+            },
+            "2026-07-08": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年7月-順心作成-1.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。",
+              "departures": [
+                "16:10",
+                "19:20"
+              ]
+            },
+            "2026-07-09": {
+              "status": "changed",
+              "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年7月-順心作成-1.pdf",
+              "note": "下校時刻変更あり。時刻は公式PDFを確認してください。",
+              "departures": [
+                "16:10",
+                "19:20"
+              ]
+            }
+          },
+          "parser_status": "ok"
         }
       }
     }
   },
-  "last_topic_title": "2026年9月30日 学園 【スクールバス】10月変更案内",
+  "last_topic_title": "2026年10月変更案内",
   "last_topic_url": "https://www.fgmeisei.ed.jp/topics/13052/",
   "update_errors": []
 }
