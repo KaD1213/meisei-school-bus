@@ -29,6 +29,49 @@ DATA = ROOT / "data" / "schedule.json"
 BASE = "https://www.fgmeisei.ed.jp/"
 UA = "MeiseiBusScheduleBot/1.0 (+non-commercial student project)"
 
+# Manually transcribed from the official October 2026 calendar image and
+# timetable. PDF text extraction cannot reliably associate these calendar
+# cells with their date, so this reviewed month must never be replaced by the
+# generic parser's result.
+VERIFIED_CALENDAR_MODES = {
+    "2026-10": {
+        "A": [1, 2, 5, 6, 7, 8, 14, 15, 16, 18, 19, 20, 21, 22, 23, 26, 27, 28, 29, 30],
+        "C": [3, 17, 24, 31],
+        "D": [10],
+        "no_service": [4, 11, 12, 25],
+        "changed": {
+            9: ["13:15", "17:10", "19:20"],
+            13: ["17:10", "19:20"],
+        },
+        "notes": {18: "しらうめ祭のためA便運行"},
+    }
+}
+
+def verified_calendar_overrides(year: int, month: int, source_url: str) -> dict | None:
+    """Build exact overrides for a month manually checked against its image."""
+    spec = VERIFIED_CALENDAR_MODES.get(f"{year:04d}-{month:02d}")
+    if spec is None:
+        return None
+    result = {}
+    for mode in ("A", "B", "C", "D"):
+        for day in spec.get(mode, []):
+            result[f"{year:04d}-{month:02d}-{day:02d}"] = {
+                "status": "special", "mode": mode, "source_url": source_url,
+            }
+    for day in spec.get("no_service", []):
+        result[f"{year:04d}-{month:02d}-{day:02d}"] = {
+            "status": "no_service", "source_url": source_url,
+        }
+    for day, departures in spec.get("changed", {}).items():
+        result[f"{year:04d}-{month:02d}-{day:02d}"] = {
+            "status": "changed", "mode": "A", "source_url": source_url,
+            "departures": departures,
+            "note": f"変更後の明誠高校出発は{len(departures)}便です。",
+        }
+    for day, note in spec.get("notes", {}).items():
+        result[f"{year:04d}-{month:02d}-{day:02d}"]["note"] = note
+    return result
+
 session = requests.Session()
 session.headers.update({"User-Agent": UA})
 
@@ -173,7 +216,20 @@ def parse_overrides(text: str, year: int, month: int, source_url: str) -> dict:
         context = text[match.end():min(end, match.end() + 2500)]
         status = None
         mode = None
-        has_changed_timetable = "下校便" in context and "変更" in context
+        # A calendar month PDF can place a day's date and its A/B/C/D marker
+        # beside a different date's timetable-change note (for example,
+        # Friday 10/9 next to Saturday 10/10). Only attach the change label
+        # when the date's own compact block explicitly carries the marker.
+        own_day_context = context[:260]
+        # Do not infer a change solely from nearby PDF text. The calendar
+        # parser can flatten adjacent date cells into one text run. A changed
+        # day is recognized automatically only when its own compact section
+        # contains the note and the school's actual departure row.
+        has_changed_timetable = (
+            "下校便" in own_day_context
+            and "変更" in own_day_context
+            and bool(re.search(r"明誠高校.{0,80}(?:[01]?\d|2[0-3]):[0-5]\d", own_day_context))
+        )
         if has_changed_timetable:
             status = "changed"
         elif "運行はありません" in context or "運行なし" in context:
@@ -246,15 +302,30 @@ def main():
                 # identifies the changed date but cannot read its table row.
                 previous_month = route.get("months", {}).get(month_id, {})
                 previous_overrides = previous_month.get("overrides", route.get("overrides", {}))
-                # A calendar image can contain many more confirmed dates than
-                # the text layer exposes. Do not let a partial text extraction
-                # erase an already reviewed full-month calendar.
-                if (previous_month.get("parser_status") == "verified_calendar_image"
-                        and len(overrides) < len(previous_overrides)):
-                    for day, old_item in previous_overrides.items():
-                        overrides.setdefault(day, old_item)
+                exact_calendar = verified_calendar_overrides(year, month, url)
+                # A human-reviewed calendar image is authoritative for its
+                # whole month. PDF text extraction flattens adjacent cells,
+                # so even a full-looking parse can incorrectly mark every
+                # Saturday as changed. Keep the reviewed month intact.
+                reviewed_calendar = (exact_calendar is not None
+                                     or previous_month.get("parser_status") == "verified_calendar_image")
+                if exact_calendar is not None:
+                    overrides = exact_calendar
+                elif reviewed_calendar:
+                    overrides = dict(previous_overrides)
                 for day, item in overrides.items():
                     old_item = previous_overrides.get(day, {})
+                    # A timetable note can be picked up from a neighboring
+                    # date in the PDF text layer. If a reviewed calendar says
+                    # this date is a specific A/B/C/D service and the parser
+                    # found no replacement departure times, retain that
+                    # reviewed mode rather than publishing a false change.
+                    if (item.get("status") == "changed"
+                            and not item.get("departures")
+                            and old_item.get("status") == "special"
+                            and old_item.get("mode") in {"A", "B", "C", "D"}):
+                        overrides[day] = old_item
+                        continue
                     if item.get("status") == "changed" and not item.get("departures") and old_item.get("departures"):
                         item["departures"] = old_item["departures"]
                         item["note"] = old_item.get("note", item.get("note", ""))
@@ -263,7 +334,7 @@ def main():
                     "source_url": url,
                     "topic_url": topic,
                     "overrides": overrides,
-                    "parser_status": "ok",
+                    "parser_status": "verified_calendar_image" if reviewed_calendar else "ok",
                 }
                 route.setdefault("months", {})[month_id] = monthly
 
@@ -272,7 +343,7 @@ def main():
                     route["source_url"] = url
                     route["topic_url"] = topic
                     route["overrides"] = overrides
-                    route["parser_status"] = "ok"
+                    route["parser_status"] = monthly["parser_status"]
                     latest_success = (year, month)
                     latest_title, latest_topic = title, topic
                 any_success = True
