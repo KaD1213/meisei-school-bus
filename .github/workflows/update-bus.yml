@@ -2,6 +2,12 @@ name: Update school bus data
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - scripts/update.py
+      - requirements.txt
+      - .github/workflows/update-bus.yml
   schedule:
     # Every 3 hours. GitHub cron is UTC.
     - cron: "17 */3 * * *"
@@ -10,6 +16,10 @@ permissions:
   contents: write
   pages: write
   id-token: write
+
+concurrency:
+  group: school-bus-update
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -41,6 +51,9 @@ jobs:
           git push
 
   deploy:
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
     needs: update
     runs-on: ubuntu-latest
     environment:
