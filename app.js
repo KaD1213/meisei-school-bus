@@ -52,11 +52,21 @@ function getSchoolDepartures(info) {
 
 function renderHero(date) {
   const info = getDayInfo(date);
+  const status = normalizedStatus(info);
   $("heroDate").textContent = jpDate(date);
-  $("heroTitle").textContent = routeData().name || "スクールバスの予定";
+  const heroTitle = $("heroTitle");
+  const mode = String(info.mode || "").toUpperCase();
+  heroTitle.textContent = mode
+    ? `${mode}便`
+    : status === "none" ? "運休"
+    : status === "normal" ? "通常運行"
+    : status === "changed" ? "変更あり"
+    : "未確認";
+  heroTitle.className = `hero-mode ${mode ? `mode-${mode.toLowerCase()}` : status}`;
+
   const pill = $("heroStatus");
-  pill.className = `status-pill ${normalizedStatus(info)}`;
-  pill.textContent = statusLabel(info);
+  pill.className = `status-pill changed${status === "changed" && mode ? "" : " hidden"}`;
+  pill.textContent = status === "changed" && mode ? "変更あり" : "";
   $("heroDetails").textContent = info.note || "";
 
   const month = routeData().months?.[monthKey(date)] || routeData();
@@ -105,7 +115,7 @@ function renderSchedule(date) {
     box.innerHTML = '<div class="empty-state">学校出発時刻を確認できません。公式PDFをご確認ください。</div>';
     return;
   }
-  let html = scheduleSection("下校 · 学校出発時刻", trips);
+  let html = scheduleSection("学校出発", trips);
   if (status === "unknown") html += '<div class="empty-state" style="padding-top:14px">変更案内が未確認のため、通常ダイヤを参考表示しています。</div>';
   box.innerHTML = html;
 }
@@ -117,31 +127,47 @@ function renderCalendar() {
   $("monthLabel").textContent = `${year}年${monthIndex + 1}月`;
   const first = new Date(year, monthIndex, 1);
   const mondayOffset = (first.getDay() + 6) % 7;
-  const start = addDays(first, -mondayOffset);
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
   const calendar = $("calendar");
   calendar.replaceChildren();
 
-  for (let i = 0; i < 42; i++) {
-    const date = addDays(start, i);
+  for (let i = 0; i < mondayOffset; i++) {
+    const blank = document.createElement("span");
+    blank.className = "day-placeholder";
+    blank.setAttribute("aria-hidden", "true");
+    calendar.append(blank);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, monthIndex, day);
     const info = getDayInfo(date);
     const status = normalizedStatus(info);
     const button = document.createElement("button");
     button.type = "button";
     button.className = "day";
-    if (date.getMonth() !== monthIndex) button.classList.add("outside");
+    if (date.getDay() === 0) button.classList.add("sunday");
+    if (date.getDay() === 6) button.classList.add("saturday");
     if (iso(date) === iso(new Date())) button.classList.add("today");
     if (iso(date) === iso(state.selectedDate)) button.classList.add("selected");
     if (status === "changed") button.classList.add("has-change");
     const modeClass = info.mode ? `mode-${String(info.mode).toLowerCase()}` : status;
+    const changeMark = status === "changed" ? '<i class="change-marker" aria-hidden="true"></i>' : "";
     button.setAttribute("aria-label", `${jpDate(date)}、${statusLabel(info)}`);
     button.setAttribute("aria-pressed", String(iso(date) === iso(state.selectedDate)));
-    button.innerHTML = `<span class="num">${date.getDate()}</span><span class="mini-status ${modeClass}"></span>`;
+    button.innerHTML = `<span class="day-label"><span class="num">${date.getDate()}</span>${changeMark}</span><span class="mini-status ${modeClass}"></span>`;
     button.addEventListener("click", () => {
       state.selectedDate = date;
-      state.shownMonth = new Date(date.getFullYear(), date.getMonth(), 1);
       renderAll();
     });
     calendar.append(button);
+  }
+
+  const trailing = (7 - ((mondayOffset + daysInMonth) % 7)) % 7;
+  for (let i = 0; i < trailing; i++) {
+    const blank = document.createElement("span");
+    blank.className = "day-placeholder";
+    blank.setAttribute("aria-hidden", "true");
+    calendar.append(blank);
   }
 }
 
@@ -180,6 +206,9 @@ async function boot() {
         state.data = bundledData;
       }
     }
+    // Show only the current month and the following month.
+    state.shownMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    state.selectedDate = new Date();
     renderAll();
   } catch (error) {
     const notice = $("dataNotice");
@@ -189,13 +218,22 @@ async function boot() {
   }
 }
 
-$("prevMonth").addEventListener("click", () => {
-  state.shownMonth = new Date(state.shownMonth.getFullYear(), state.shownMonth.getMonth() - 1, 1);
-  renderCalendar();
-});
 $("nextMonth").addEventListener("click", () => {
-  state.shownMonth = new Date(state.shownMonth.getFullYear(), state.shownMonth.getMonth() + 1, 1);
-  renderCalendar();
+  const current = new Date();
+  const currentMonth = new Date(current.getFullYear(), current.getMonth(), 1);
+  const nextMonth = new Date(current.getFullYear(), current.getMonth() + 1, 1);
+  if (monthKey(state.shownMonth) === monthKey(currentMonth)) {
+    state.shownMonth = nextMonth;
+    state.selectedDate = new Date(nextMonth.getFullYear(), nextMonth.getMonth(), 1);
+    renderAll();
+  } else {
+    state.shownMonth = currentMonth;
+    state.selectedDate = current;
+    renderAll();
+  }
+  const showingNext = monthKey(state.shownMonth) === monthKey(nextMonth);
+  $("nextMonth").setAttribute("aria-label", showingNext ? "今月" : "翌月");
+  $("nextMonth").textContent = showingNext ? "‹" : "›";
 });
 
 boot();

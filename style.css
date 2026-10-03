@@ -518,9 +518,11 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(0, 122, 255, .42
 }
 
 /* Restore the earlier rounded-square calendar cells with legible event bars. */
-.month-head { display: flex; justify-content: space-between; gap: 12px; }
-.month-head h3 { flex: 1; text-align: center; font-size: 19px; font-weight: 700; }
+.month-head { position: relative; display: flex; justify-content: center; gap: 12px; }
+.month-head h3 { text-align: center; font-size: 19px; font-weight: 700; }
 .month-head .month-nav {
+  position: absolute;
+  right: 0;
   width: 36px;
   height: 36px;
   border: 0;
