@@ -107,8 +107,8 @@ html[data-font="kaisei"] { --app-font: "Kaisei Decol", "Yu Mincho", serif; }
 html[data-font="kurenaido"] { --app-font: "Zen Kurenaido", "Meiryo", sans-serif; }
 html[data-font="klee"] { --app-font: "Klee One", "Meiryo", cursive; }
 html[data-font="yusei"] { --app-font: "Yusei Magic", "Meiryo", sans-serif; }
-.settings-button { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; border: 1px solid #d9e3f1; border-radius: 11px; background: #edf2f9; color: #647b9b; }
-.settings-button svg { width: 20px; height: 20px; }
+.settings-button { box-sizing: border-box; display: grid; place-items: center; flex: 0 0 40px; width: 40px; min-width: 40px; height: 40px; min-height: 40px; padding: 0; aspect-ratio: 1; border: 1px solid #d9e3f1; border-radius: 12px; background: #edf2f9; color: #647b9b; }
+.settings-button svg { display: block; flex: none; width: 22px; min-width: 22px; height: 22px; min-height: 22px; overflow: visible; }
 .settings-dialog { width: min(440px, calc(100% - 24px)); max-height: calc(100dvh - 32px); padding: 24px; border: 1px solid #e0e7f0; border-radius: 24px; background: #fff; color: var(--ink); box-shadow: 0 24px 80px #07142630; font-family: inherit; }
 .settings-dialog::backdrop { background: #0a152b65; backdrop-filter: blur(5px); }
 .settings-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; }
