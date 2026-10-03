@@ -16,7 +16,7 @@ import io
 import json
 import re
 import unicodedata
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.parse import urljoin
 
@@ -140,10 +140,11 @@ def infer_year_month(text: str, topic_title: str) -> tuple[int, int]:
     # before the actual schedule month. Prefer the explicit announcement month.
     m = re.search(r"(\d{1,2})\s*月\s*変更案内", title)
     year_match = re.search(r"(20\d{2})\s*年", title)
-    year = int(year_match.group(1)) if year_match else datetime.now().year
+    normalized_text = unicodedata.normalize("NFKC", text)
+    text_year = re.search(r"(20\d{2})\s*年\s*\d{1,2}\s*月", normalized_text)
+    year = int(text_year.group(1)) if text_year else int(year_match.group(1)) if year_match else datetime.now().year
     if m:
         return year, int(m.group(1))
-    normalized_text = unicodedata.normalize("NFKC", text)
     m = re.search(r"(20\d{2})\s*年\s*(\d{1,2})\s*月", normalized_text)
     if m:
         return int(m.group(1)), int(m.group(2))
@@ -296,6 +297,14 @@ def main():
                 text = pdf_text(url)
                 year, month = infer_year_month(text, title)
                 month_id = f"{year:04d}-{month:02d}"
+                now = datetime.now()
+                current_id = f"{now.year:04d}-{now.month:02d}"
+                next_date = date(now.year + (now.month == 12), now.month % 12 + 1, 1)
+                next_id = f"{next_date.year:04d}-{next_date.month:02d}"
+                # Keep only this month and the next month. Older announcements
+                # are deliberately ignored, even if they remain on the school site.
+                if not (current_id <= month_id <= next_id):
+                    continue
                 overrides = parse_overrides(text, year, month, url)
                 route = new["routes"][route_key]
                 # Preserve verified departures when a PDF extraction only
@@ -351,12 +360,22 @@ def main():
                 errors.append(f"{topic} {route_key}: {e}")
 
     if any_success:
+        now = datetime.now()
+        current_id = f"{now.year:04d}-{now.month:02d}"
+        next_date = date(now.year + (now.month == 12), now.month % 12 + 1, 1)
+        next_id = f"{next_date.year:04d}-{next_date.month:02d}"
+        for route in new.get("routes", {}).values():
+            months = route.get("months", {})
+            route["months"] = {
+                month_id: monthly for month_id, monthly in months.items()
+                if current_id <= month_id <= next_id
+            }
         new["generated_at"] = datetime.now(timezone.utc).isoformat()
         new["last_topic_title"] = latest_title
         new["last_topic_url"] = latest_topic
         new["update_errors"] = errors
         DATA.write_text(json.dumps(new, ensure_ascii=False, indent=2), encoding="utf-8")
-        print(f"updated {len(topics)} monthly notices through {latest_title}")
+        print(f"updated current and next month through {latest_title}")
         if errors:
             print("warnings:", "; ".join(errors))
     else:
