@@ -518,11 +518,15 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(0, 122, 255, .42
 }
 
 /* Restore the earlier rounded-square calendar cells with legible event bars. */
-.month-head { position: relative; display: flex; justify-content: center; gap: 12px; }
-.month-head h3 { text-align: center; font-size: 19px; font-weight: 700; }
+.month-head {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 8px;
+}
+.month-head h3 { min-width: 0; text-align: center; font-size: 19px; font-weight: 700; }
 .month-head .month-nav {
-  position: absolute;
-  right: 0;
+  position: static;
   width: 36px;
   height: 36px;
   border: 0;
@@ -532,7 +536,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(0, 122, 255, .42
   font-size: 25px;
 }
 .month-head .month-nav:disabled { color: #c7c7cc; cursor: default; }
-#prevMonth { right: auto; left: 0; }
+#prevMonth { justify-self: start; }
+#nextMonth { justify-self: end; }
 .weekdays, .calendar { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
 .weekdays { margin: 10px 0 6px; color: #8e8e93; font-size: 12px; font-weight: 600; }
 .weekdays span:first-child { color: #af52de; }
@@ -663,14 +668,14 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(0, 122, 255, .42
   transform: rotate(45deg);
 }
 @media (max-width: 600px) {
-  .day { height: clamp(64px, 17vw, 70px); min-height: 64px; }
+  .day { height: 52px; min-height: 52px; }
   .schedule-card .time-chip { min-height: 52px; padding: 5px 8px; }
   .schedule-card .schedule-block { margin-top: 6px; }
   .schedule-card .chip-time { font-size: 20px; }
 }
 @media (max-width: 360px) {
-  .day { height: 62px; min-height: 62px; }
+  .day { height: 50px; min-height: 50px; }
 }
 @media (max-width: 600px) and (max-height: 720px) {
-  .day { height: 60px; min-height: 60px; }
+  .day { height: 48px; min-height: 48px; }
 }
