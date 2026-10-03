@@ -595,12 +595,12 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(0, 122, 255, .42
   .schedule-card .hero-head h2.hero-mode { font-size: 34px; }
 }
 @media (max-width: 600px) {
-  .app-shell { padding-left: 8px; padding-right: 8px; }
+  .app-shell { padding-left: 14px; padding-right: 14px; }
   #monthView {
-    margin-left: -8px;
-    margin-right: -8px;
-    padding-right: 4px;
-    padding-left: 4px;
+    margin-left: 0;
+    margin-right: 0;
+    padding-right: 12px;
+    padding-left: 12px;
   }
   .weekdays, .calendar { gap: 2px; }
   .weekdays { margin-top: 10px; margin-bottom: 8px; font-size: 12px; }
@@ -661,11 +661,14 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(0, 122, 255, .42
   transform: rotate(45deg);
 }
 @media (max-width: 600px) {
-  .day { height: clamp(72px, 18.5vw, 80px); min-height: 72px; }
+  .day { height: clamp(64px, 17vw, 70px); min-height: 64px; }
+  .schedule-card .time-chip { min-height: 52px; padding: 5px 8px; }
+  .schedule-card .schedule-block { margin-top: 6px; }
+  .schedule-card .chip-time { font-size: 20px; }
 }
 @media (max-width: 360px) {
-  .day { height: 68px; min-height: 68px; }
+  .day { height: 62px; min-height: 62px; }
 }
 @media (max-width: 600px) and (max-height: 720px) {
-  .day { height: 66px; min-height: 66px; }
+  .day { height: 60px; min-height: 60px; }
 }
