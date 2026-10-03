@@ -13,12 +13,14 @@ data/schedule.json の月別変更情報を更新する。
 from __future__ import annotations
 
 import io
+import calendar
+import hashlib
 import json
 import re
 import unicodedata
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timezone, timedelta
 from pathlib import Path
-from urllib.parse import urljoin
+from urllib.parse import urljoin, unquote
 
 import pdfplumber
 import requests
@@ -27,50 +29,7 @@ from bs4 import BeautifulSoup
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data" / "schedule.json"
 BASE = "https://www.fgmeisei.ed.jp/"
-UA = "MeiseiBusScheduleBot/1.0 (+non-commercial student project)"
-
-# Manually transcribed from the official October 2026 calendar image and
-# timetable. PDF text extraction cannot reliably associate these calendar
-# cells with their date, so this reviewed month must never be replaced by the
-# generic parser's result.
-VERIFIED_CALENDAR_MODES = {
-    "2026-10": {
-        "A": [1, 2, 5, 6, 7, 8, 14, 15, 16, 18, 19, 20, 21, 22, 23, 26, 27, 28, 29, 30],
-        "C": [3, 17, 24, 31],
-        "D": [10],
-        "no_service": [4, 11, 12, 25],
-        "changed": {
-            9: ["13:15", "17:10", "19:20"],
-            13: ["17:10", "19:20"],
-        },
-        "notes": {18: "しらうめ祭のためA便運行"},
-    }
-}
-
-def verified_calendar_overrides(year: int, month: int, source_url: str) -> dict | None:
-    """Build exact overrides for a month manually checked against its image."""
-    spec = VERIFIED_CALENDAR_MODES.get(f"{year:04d}-{month:02d}")
-    if spec is None:
-        return None
-    result = {}
-    for mode in ("A", "B", "C", "D"):
-        for day in spec.get(mode, []):
-            result[f"{year:04d}-{month:02d}-{day:02d}"] = {
-                "status": "special", "mode": mode, "source_url": source_url,
-            }
-    for day in spec.get("no_service", []):
-        result[f"{year:04d}-{month:02d}-{day:02d}"] = {
-            "status": "no_service", "source_url": source_url,
-        }
-    for day, departures in spec.get("changed", {}).items():
-        result[f"{year:04d}-{month:02d}-{day:02d}"] = {
-            "status": "changed", "mode": "A", "source_url": source_url,
-            "departures": departures,
-            "note": f"変更後の明誠高校出発は{len(departures)}便です。",
-        }
-    for day, note in spec.get("notes", {}).items():
-        result[f"{year:04d}-{month:02d}-{day:02d}"]["note"] = note
-    return result
+UA = "MeiseiBusScheduleBot/2.0"
 
 session = requests.Session()
 session.headers.update({"User-Agent": UA})
@@ -114,25 +73,10 @@ def extract_pdf_links(topic_url: str) -> dict[str, str]:
         label = " ".join(a.stripped_strings)
         href = urljoin(topic_url, a.get("href"))
         hay = (label + " " + href).lower()
-        if not found["hainan"] and ("御前崎" in label or "榛南" in label):
+        if not found["hainan"] and ("御前崎" in unquote(hay) or "榛南" in unquote(hay)):
             found["hainan"] = href
 
-    # Fallback: article layout generally lists monthly Hainan then Yaizu PDFs
-    if not found["hainan"]:
-        pdfs = [urljoin(topic_url, a.get("href")) for a in soup.select("a[href]") if ".pdf" in (a.get("href") or "").lower()]
-        monthly = [u for u in pdfs if "時刻表" not in u]
-        if monthly:
-            found["hainan"] = monthly[0]
     return found
-
-def pdf_text(url: str) -> str:
-    content = get(url).content
-    out = []
-    with pdfplumber.open(io.BytesIO(content)) as pdf:
-        for page in pdf.pages:
-            text = page.extract_text(x_tolerance=2, y_tolerance=3) or ""
-            out.append(text)
-    return "\n".join(out)
 
 def infer_year_month(text: str, topic_title: str) -> tuple[int, int]:
     title = unicodedata.normalize("NFKC", topic_title)
@@ -150,131 +94,109 @@ def infer_year_month(text: str, topic_title: str) -> tuple[int, int]:
         return int(m.group(1)), int(m.group(2))
     return year, datetime.now().month
 
-def expand_date_expr(expr: str, year: int, default_month: int) -> list[str]:
-    """Extract month/day tokens. Handles '9/21～9/23' by expanding same-month ranges."""
-    expr = expr.replace("／", "/").replace("～", "~").replace("〜", "~")
-    # Remove weekday parentheses to simplify.
-    expr = re.sub(r"[（(][月火水木金土日][）)]", "", expr)
+def normalize(text):
+    return unicodedata.normalize('NFKC', text or '').replace(' ', '')
 
-    range_m = re.search(r"(?:(\d{1,2})/)?(\d{1,2})\s*~\s*(?:(\d{1,2})/)?(\d{1,2})", expr)
-    results = []
-    if range_m:
-        m1 = int(range_m.group(1) or default_month)
-        d1 = int(range_m.group(2))
-        m2 = int(range_m.group(3) or m1)
-        d2 = int(range_m.group(4))
-        if m1 == m2 and d2 >= d1 and d2 - d1 <= 14:
-            for d in range(d1, d2 + 1):
-                results.append(f"{year:04d}-{m1:02d}-{d:02d}")
 
-    for m, d in re.findall(r"(?:(\d{1,2})/)?(\d{1,2})", expr):
-        mo = int(m or default_month)
-        day = int(d)
-        if 1 <= mo <= 12 and 1 <= day <= 31:
-            key = f"{year:04d}-{mo:02d}-{day:02d}"
-            if key not in results:
-                results.append(key)
-    return results
-
-def nearby_date_block(lines: list[str], i: int, year: int, month: int) -> list[str]:
-    # Search a few lines backwards for the "☆ date ... の運行について" heading.
-    for j in range(i, max(-1, i-5), -1):
-        if "運行について" in lines[j] or lines[j].lstrip().startswith("☆"):
-            dates = expand_date_expr(lines[j], year, month)
-            if dates:
-                return dates
-    return []
-
-def parse_overrides(text: str, year: int, month: int, source_url: str) -> dict:
-    text = unicodedata.normalize("NFKC", text)
-    # Match only explicit date headings. A general number scan also picks up
-    # school-year numbers, table cells, and unrelated months in the PDF.
-    heading = re.compile(
-        r"(?:[☆※]\s*)?(?:R\s*\d+\s*年\s*)?(?:(?P<month>\d{1,2})\s*/\s*(?P<day>\d{1,2})|(?P<day_only>\d{1,2})(?=\s*[（(]))"
-        r"(?P<tail>[^\n]*?の運行について)",
-        re.IGNORECASE,
-    )
-    matches = list(heading.finditer(text))
-    overrides: dict[str, dict] = {}
-    for index, match in enumerate(matches):
-        heading_text = match.group(0)
-        event_month = int(match.group("month") or month)
-        days = [int(match.group("day") or match.group("day_only"))]
-        for continuation in re.finditer(r"[・、,~〜～-]\s*(?:(\d{1,2})\s*/\s*)?(\d{1,2})", match.group("tail")):
-            continued_month = int(continuation.group(1) or event_month)
-            if continued_month == event_month:
-                days.append(int(continuation.group(2)))
-
-        # The PDF's first page places 10/9 and the Saturday notes side by side.
-        # Read the changed-table marker from that shared section, then use the
-        # school row below to collect only actual departures.
-        end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
-        if index + 1 < len(matches):
-            next_match = matches[index + 1]
-            same_line = text.count("\n", 0, match.start()) == text.count("\n", 0, next_match.start())
-            if same_line:
-                end = matches[index + 2].start() if index + 2 < len(matches) else len(text)
-        context = text[match.end():min(end, match.end() + 2500)]
-        status = None
-        mode = None
-        # A calendar month PDF can place a day's date and its A/B/C/D marker
-        # beside a different date's timetable-change note (for example,
-        # Friday 10/9 next to Saturday 10/10). Only attach the change label
-        # when the date's own compact block explicitly carries the marker.
-        own_day_context = context[:260]
-        # Do not infer a change solely from nearby PDF text. The calendar
-        # parser can flatten adjacent date cells into one text run. A changed
-        # day is recognized automatically only when its own compact section
-        # contains the note and the school's actual departure row.
-        has_changed_timetable = (
-            "下校便" in own_day_context
-            and "変更" in own_day_context
-            and bool(re.search(r"明誠高校.{0,80}(?:[01]?\d|2[0-3]):[0-5]\d", own_day_context))
-        )
-        if has_changed_timetable:
-            status = "changed"
-        elif "運行はありません" in context or "運行なし" in context:
-            status = "no_service"
-        else:
-            mode_match = re.search(r"([BCD])\s*便", context[:260])
-            if mode_match:
-                mode = mode_match.group(1)
-                status = "special"
-            elif re.search(r"A\s*便.{0,30}(?:通常|です)", context[:260]):
-                status, mode = "special", "A"
-
-        table_context = context
-
-        # Keep only dates in the announcement month and real calendar dates.
-        for day in days:
-            try:
-                from datetime import date
-                date(year, event_month, day)
-            except ValueError:
+def parse_calendar_pdf(content, year, month, source_url):
+    result = {}
+    with pdfplumber.open(io.BytesIO(content)) as pdf:
+        for page in pdf.pages:
+            # Excel-exported PDFs can contain a ~1e-7 skew. pdfminer marks
+            # these horizontal characters as vertical and hides the calendar.
+            for char in page.chars:
+                a, b, c, d, _, _ = char['matrix']
+                if a > 0 and d > 0 and abs(b) < 1e-4 and abs(c) < 1e-4:
+                    char['upright'] = True
+            words = page.extract_words()
+            headers = [w for w in words if normalize(w['text']) in
+                       ['月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日', '日曜日']]
+            if len(headers) != 7:
                 continue
-            if event_month != month or status is None:
-                continue
-            key = f"{year:04d}-{event_month:02d}-{day:02d}"
-            payload = {"status": status, "source_url": source_url}
-            if mode:
-                payload["mode"] = mode
-            if status == "changed":
-                payload["note"] = "下校時刻変更あり。時刻は公式PDFを確認してください。"
-                departure_block = re.search(r"下校便[^\n]{0,30}変更", table_context)
-                if departure_block:
-                    rows = table_context[departure_block.end():].splitlines()
-                    for row in rows[:14]:
-                        if "明誠高校" not in row:
-                            continue
-                        # The first Meisei row is the school's departure;
-                        # later rows are intermediate stops on the route.
-                        school_row = row[row.index("明誠高校") + len("明誠高校"):]
-                        departures = re.findall(r"(?<!\d)(?:[01]?\d|2[0-3]):[0-5]\d(?!\d)", school_row)
-                        if departures:
-                            payload["departures"] = departures
-                        break
-            overrides[key] = payload
-    return overrides
+            headers.sort(key=lambda w: w['x0'])
+            if [normalize(w['text']) for w in headers] != ['月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日', '日曜日']:
+                raise ValueError('カレンダーの曜日列を確認できません')
+            left = headers[0]['x0'] - 10
+            spacing = (headers[-1]['x0'] - headers[0]['x0']) / 6
+            edges = [left] + [(headers[i-1]['x0'] + headers[i]['x0']) / 2 + spacing / 2 - 10 for i in range(1, 7)] + [headers[-1]['x0'] + spacing - 10]
+            top = max(w['bottom'] for w in headers)
+            # Stop before the separate explanatory tables below the calendar.
+            note_top = min((w['top'] for w in words if '運行について' in normalize(w['text']) and w['top'] > top), default=page.height)
+            numbers = [w for w in words if top <= w['top'] < note_top and left <= w['x0'] < edges[-1]
+                       and re.fullmatch(r'\d{1,2}', normalize(w['text']))]
+            rows = []
+            for w in sorted(numbers, key=lambda w: w['top']):
+                if not rows or abs(rows[-1][0]['top'] - w['top']) > 3:
+                    rows.append([w])
+                else:
+                    rows[-1].append(w)
+            expected = calendar.Calendar(firstweekday=0).monthdayscalendar(year, month)
+            if len(rows) < len(expected):
+                raise ValueError('カレンダーの日付行が不足しています')
+            gaps = [rows[i+1][0]['top'] - rows[i][0]['top'] for i in range(len(expected)-1)]
+            gap = sorted(gaps)[len(gaps)//2]
+            for row_index, week in enumerate(expected):
+                row = rows[row_index]
+                y0 = min(w['top'] for w in row) - 1
+                y1 = rows[row_index+1][0]['top'] - 1 if row_index+1 < len(rows) else y0 + gap
+                for col, day in enumerate(week):
+                    if not day:
+                        continue
+                    dates = [w for w in row if edges[col] <= w['x0'] < edges[col+1]]
+                    if len(dates) != 1 or int(normalize(dates[0]['text'])) != day:
+                        raise ValueError(f'{month}/{day}: 日付の位置が一致しません')
+                    text = normalize(page.crop((edges[col], y0, edges[col+1], y1)).extract_text())
+                    key = f'{year:04d}-{month:02d}-{day:02d}'
+                    if '運行なし' in text:
+                        item = {'status': 'no_service', 'source_url': source_url}
+                    else:
+                        modes = re.findall(r'([ABCD])便', text)
+                        if len(modes) != 1:
+                            raise ValueError(f'{key}: 便を確実に判定できません')
+                        changed = '下校' in text and '変更' in text
+                        item = {'status': 'changed' if changed else 'special', 'mode': modes[0], 'source_url': source_url}
+                    result[key] = item
+
+        if len(result) != calendar.monthrange(year, month)[1]:
+            raise ValueError('月間カレンダーを確実に取得できません')
+
+        # Each table is isolated geometrically, so neighboring Saturday notes
+        # cannot contaminate a weekday's changed departure times.
+        for page in pdf.pages:
+            for table in page.find_tables():
+                rows = table.extract()
+                heading = normalize(''.join(c or '' for c in rows[0]))
+                if '運行について' not in heading or '下校' not in heading or '変更' not in heading:
+                    continue
+                dates = re.findall(r'(\d{1,2})/(\d{1,2})', heading)
+                if not dates:
+                    continue
+                school = next((r for r in rows[1:] if normalize(r[0]) == '明誠高校'), None)
+                if school is None:
+                    continue
+                departures, labels = [], []
+                for index, value in enumerate(school[1:], start=1):
+                    value = normalize(value)
+                    if re.fullmatch(r'(?:[01]?\d|2[0-3]):[0-5]\d', value):
+                        hour, minute = value.split(':')
+                        departures.append(f'{int(hour):02d}:{minute}')
+                        labels.append(f'{index}便')
+                    elif value != '通過':
+                        raise ValueError('変更便の時刻セルを判定できません')
+                for mo, day in dates:
+                    if int(mo) != month:
+                        continue
+                    key = f'{year:04d}-{month:02d}-{int(day):02d}'
+                    if key not in result or result[key]['status'] != 'changed':
+                        raise ValueError(f'{key}: カレンダーと変更表が一致しません')
+                    if 'departures' in result[key] and result[key]['departures'] != departures:
+                        raise ValueError(f'{key}: 変更表が重複しています')
+                    result[key].update(departures=departures, departure_labels=labels)
+        for key, item in result.items():
+            if item['status'] == 'changed' and 'departures' not in item:
+                item['note'] = '変更後の時刻は公式PDFを確認してください。'
+    return result
+
 
 def main():
     old = json.loads(DATA.read_text(encoding="utf-8"))
@@ -287,17 +209,23 @@ def main():
     latest_topic = ""
 
     for title, topic in topics:
-        links = extract_pdf_links(topic)
+        try:
+            links = extract_pdf_links(topic)
+        except Exception as error:
+            errors.append(f"{topic}: {error}")
+            continue
         for route_key in ("hainan",):
             url = links.get(route_key)
             if not url:
                 errors.append(f"{topic} {route_key}: PDF not found")
                 continue
             try:
-                text = pdf_text(url)
+                content = get(url).content
+                with pdfplumber.open(io.BytesIO(content)) as pdf:
+                    text = "\n".join(page.extract_text() or "" for page in pdf.pages)
                 year, month = infer_year_month(text, title)
                 month_id = f"{year:04d}-{month:02d}"
-                now = datetime.now()
+                now = datetime.now(timezone(timedelta(hours=9)))
                 current_id = f"{now.year:04d}-{now.month:02d}"
                 next_date = date(now.year + (now.month == 12), now.month % 12 + 1, 1)
                 next_id = f"{next_date.year:04d}-{next_date.month:02d}"
@@ -305,45 +233,17 @@ def main():
                 # are deliberately ignored, even if they remain on the school site.
                 if not (current_id <= month_id <= next_id):
                     continue
-                overrides = parse_overrides(text, year, month, url)
                 route = new["routes"][route_key]
-                # Preserve verified departures when a PDF extraction only
-                # identifies the changed date but cannot read its table row.
-                previous_month = route.get("months", {}).get(month_id, {})
-                previous_overrides = previous_month.get("overrides", route.get("overrides", {}))
-                exact_calendar = verified_calendar_overrides(year, month, url)
-                # A human-reviewed calendar image is authoritative for its
-                # whole month. PDF text extraction flattens adjacent cells,
-                # so even a full-looking parse can incorrectly mark every
-                # Saturday as changed. Keep the reviewed month intact.
-                reviewed_calendar = (exact_calendar is not None
-                                     or previous_month.get("parser_status") == "verified_calendar_image")
-                if exact_calendar is not None:
-                    overrides = exact_calendar
-                elif reviewed_calendar:
-                    overrides = dict(previous_overrides)
-                for day, item in overrides.items():
-                    old_item = previous_overrides.get(day, {})
-                    # A timetable note can be picked up from a neighboring
-                    # date in the PDF text layer. If a reviewed calendar says
-                    # this date is a specific A/B/C/D service and the parser
-                    # found no replacement departure times, retain that
-                    # reviewed mode rather than publishing a false change.
-                    if (item.get("status") == "changed"
-                            and not item.get("departures")
-                            and old_item.get("status") == "special"
-                            and old_item.get("mode") in {"A", "B", "C", "D"}):
-                        overrides[day] = old_item
-                        continue
-                    if item.get("status") == "changed" and not item.get("departures") and old_item.get("departures"):
-                        item["departures"] = old_item["departures"]
-                        item["note"] = old_item.get("note", item.get("note", ""))
+                digest = hashlib.sha256(content).hexdigest()
+                overrides = parse_calendar_pdf(content, year, month, url)
+                parser_status = "coordinate_calendar"
                 monthly = {
                     "coverage_month": month_id,
                     "source_url": url,
                     "topic_url": topic,
                     "overrides": overrides,
-                    "parser_status": "verified_calendar_image" if reviewed_calendar else "ok",
+                    "parser_status": parser_status,
+                    "source_sha256": digest,
                 }
                 route.setdefault("months", {})[month_id] = monthly
 
@@ -360,7 +260,7 @@ def main():
                 errors.append(f"{topic} {route_key}: {e}")
 
     if any_success:
-        now = datetime.now()
+        now = datetime.now(timezone(timedelta(hours=9)))
         current_id = f"{now.year:04d}-{now.month:02d}"
         next_date = date(now.year + (now.month == 12), now.month % 12 + 1, 1)
         next_id = f"{next_date.year:04d}-{next_date.month:02d}"
@@ -374,7 +274,9 @@ def main():
         new["last_topic_title"] = latest_title
         new["last_topic_url"] = latest_topic
         new["update_errors"] = errors
-        DATA.write_text(json.dumps(new, ensure_ascii=False, indent=2), encoding="utf-8")
+        temporary = DATA.with_suffix(".json.tmp")
+        temporary.write_text(json.dumps(new, ensure_ascii=False, indent=2), encoding="utf-8")
+        temporary.replace(DATA)
         print(f"updated current and next month through {latest_title}")
         if errors:
             print("warnings:", "; ".join(errors))
