@@ -125,6 +125,14 @@ function renderCalendar() {
   const year = month.getFullYear();
   const monthIndex = month.getMonth();
   $("monthLabel").textContent = `${year}年${monthIndex + 1}月`;
+  const currentMonth = new Date();
+  const isCurrentMonth = year === currentMonth.getFullYear() && monthIndex === currentMonth.getMonth();
+  const previousButton = $("prevMonth");
+  previousButton.disabled = isCurrentMonth;
+  previousButton.setAttribute("aria-label", "今月");
+  const nextButton = $("nextMonth");
+  nextButton.disabled = !isCurrentMonth;
+  nextButton.setAttribute("aria-label", "翌月");
   const first = new Date(year, monthIndex, 1);
   const mondayOffset = (first.getDay() + 6) % 7;
   const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
@@ -218,6 +226,13 @@ async function boot() {
   }
 }
 
+$("prevMonth").addEventListener("click", () => {
+  const current = new Date();
+  state.shownMonth = new Date(current.getFullYear(), current.getMonth(), 1);
+  state.selectedDate = current;
+  renderAll();
+});
+
 $("nextMonth").addEventListener("click", () => {
   const current = new Date();
   const currentMonth = new Date(current.getFullYear(), current.getMonth(), 1);
@@ -226,14 +241,7 @@ $("nextMonth").addEventListener("click", () => {
     state.shownMonth = nextMonth;
     state.selectedDate = new Date(nextMonth.getFullYear(), nextMonth.getMonth(), 1);
     renderAll();
-  } else {
-    state.shownMonth = currentMonth;
-    state.selectedDate = current;
-    renderAll();
   }
-  const showingNext = monthKey(state.shownMonth) === monthKey(nextMonth);
-  $("nextMonth").setAttribute("aria-label", showingNext ? "今月" : "翌月");
-  $("nextMonth").textContent = showingNext ? "‹" : "›";
 });
 
 boot();
