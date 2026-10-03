@@ -531,6 +531,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(0, 122, 255, .42
   color: #007aff;
   font-size: 25px;
 }
+.month-head .month-nav:disabled { color: #c7c7cc; cursor: default; }
 .weekdays, .calendar { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
 .weekdays { margin: 10px 0 6px; color: #8e8e93; font-size: 12px; font-weight: 600; }
 .weekdays span:first-child { color: #af52de; }
