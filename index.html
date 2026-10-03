@@ -3,21 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f4f6f9">
-  <meta name="description" content="藤枝明誠スクールバスの下校便予定を、カレンダーから確認できる非公式Webアプリです。">
+  <meta name="theme-color" content="#f1f4f8">
+  <meta name="description" content="藤枝明誠スクールバス・榛南線の下校時刻表">
   <title>スクールバス 時刻表</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./style.css?v=20261004-finish">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="./style.css?v=modern-release1">
+  <script src="./settings.js?v=modern-release1"></script>
 </head>
 <body>
   <div class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">FUJIEDA MEISEI <span class="route-caption">榛南線 / 下校</span></p>
+        <p class="eyebrow">藤枝明誠 <span>/</span> 榛南線</p>
         <h1>スクールバス 時刻表</h1>
       </div>
+      <button class="settings-button" id="openSettings" aria-label="表示設定を開く" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 3-.6 2.3-2 .9-2.1-.7L2.8 8l1.5 1.7-.2 2.2-1.7 1.5 1.2 2.8 2.3-.1 1.6 1.6-.1 2.3 2.8 1.2 1.5-1.7 2.2-.2 1.7 1.5 2.5-1.5-.7-2.1.9-2L21 15v-3l-2.3-.6-.9-2 .7-2.1L16 5.8l-1.7 1.5-2.2-.2L10.6 3Z"/><circle cx="11.9" cy="12.1" r="3.2"/></svg>
+      </button>
     </header>
-
     <main>
       <section class="notice hidden" id="dataNotice" role="status"></section>
       <section id="monthView" class="panel" aria-label="運行カレンダー">
@@ -35,30 +40,75 @@
           <span><i class="dot mode-b"></i>B便</span>
           <span><i class="dot mode-c"></i>C便</span>
           <span><i class="dot mode-d"></i>D便</span>
-          <span><i class="change-icon"></i>変更あり</span>
+          <span><i class="change-marker"></i>変更</span>
           <span><i class="dot none"></i>運休</span>
           <span><i class="dot unknown"></i>未確認</span>
         </div>
       </section>
-
-      <section class="hero-card schedule-card" id="heroCard">
+      <section class="schedule-card" id="heroCard" aria-label="選択日の下校予定">
         <div class="hero-head">
           <div>
+            <p class="schedule-kicker">学校出発</p>
             <p class="date-caption" id="heroDate"></p>
-            <h2 id="heroTitle">読み込み中…</h2>
           </div>
-          <div class="hero-actions">
-            <span class="status-pill" id="heroStatus">確認中</span>
-            <a id="sourceLink" class="source-link hidden" target="_blank" rel="noopener">公式PDFを確認する ↗</a>
+          <div class="service-heading">
+            <h2 id="heroTitle">読込中</h2>
+            <span class="status-pill hidden" id="heroStatus"></span>
           </div>
         </div>
         <div id="heroDetails" class="hero-details"></div>
-        <div id="scheduleTable"></div>
+        <div id="scheduleTable" aria-live="polite"></div>
+        <div class="schedule-footer">
+          <a id="sourceLink" class="source-link hidden" target="_blank" rel="noopener">公式PDF ↗</a>
+        </div>
       </section>
-
     </main>
   </div>
-  <script src="./app.js?v=20261004b" defer></script>
+  <dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle">
+    <div class="settings-head">
+      <div><h2 id="settingsTitle">表示設定</h2></div>
+      <button id="closeSettings" class="close-settings" aria-label="設定を閉じる">×</button>
+    </div>
+    <fieldset class="setting-group">
+      <legend>表示モード</legend>
+      <div class="theme-options">
+        <label><input type="radio" name="theme" value="light"><span>ライト</span></label>
+        <label><input type="radio" name="theme" value="dark"><span>ダーク</span></label>
+        <label><input type="radio" name="theme" value="system"><span>端末に合わせる</span></label>
+      </div>
+    </fieldset>
+    <div class="setting-group">
+      <label for="fontSetting">フォント</label>
+      <select id="fontSetting">
+        <optgroup label="標準・ゴシック">
+          <option value="system">システム標準</option>
+          <option value="sans">端末のゴシック体</option>
+        </optgroup>
+        <optgroup label="丸文字">
+          <option value="rounded">M PLUS Rounded 1c</option>
+          <option value="soft">Zen Maru Gothic</option>
+        </optgroup>
+        <optgroup label="手書き風">
+          <option value="kurenaido">Zen Kurenaido</option>
+          <option value="klee">Klee One</option>
+          <option value="yusei">Yusei Magic</option>
+          <option value="handwritten">Yomogi</option>
+        </optgroup>
+        <optgroup label="明朝系">
+          <option value="serif">端末の明朝体</option>
+          <option value="kaisei">Kaisei Decol</option>
+        </optgroup>
+      </select>
+      <p class="font-sample">スクールバス 時刻表 <strong>16:10</strong></p>
+    </div>
+    <p class="settings-note" id="settingsNote">設定はこの端末に保存されます。</p>
+    <div class="setting-group">
+      <label for="textSizeSetting">文字サイズ</label>
+      <select id="textSizeSetting"><option value="standard">標準</option><option value="large">大きめ</option></select>
+    </div>
+    <dl class="data-info"><dt>データ取得日時</dt><dd id="dataUpdatedAt">読み込み中</dd></dl>
+    <button class="settings-done" id="doneSettings">完了</button>
+  </dialog>
+  <script src="./app.js?v=modern-release1" defer></script>
 </body>
 </html>
-

@@ -22,7 +22,7 @@ function getDayInfo(date) {
     status: "unknown",
     note: month
       ? "この日の運行予定はPDFから確認できません。公式PDFをご確認ください。"
-      : `${date.getMonth() + 1}月の変更案内はまだ取得できていません。通常ダイヤを参考表示しています。`,
+      : `${date.getMonth() + 1}月の運行予定はまだ取得できていません。`,
     confirmed: false
   };
 }
@@ -69,9 +69,12 @@ function renderHero(date) {
   pill.textContent = status === "changed" && mode ? "変更あり" : "";
   $("heroDetails").textContent = info.note || "";
 
-  const month = routeData().months?.[monthKey(date)] || routeData();
+  const route = routeData();
+  const month = route.months?.[monthKey(date)] || (route.coverage_month === monthKey(date) ? route : null);
   const link = $("sourceLink");
-  const url = info.source_url || month.source_url || routeData().source_url;
+  const pdfUrl = info.source_url || month?.source_url;
+  const url = pdfUrl || state.data?.source_site;
+  link.textContent = pdfUrl ? "公式PDF ↗" : "公式サイト ↗";
   if (url) {
     link.href = url;
     link.classList.remove("hidden");
@@ -97,13 +100,17 @@ function renderSchedule(date) {
   const info = getDayInfo(date);
   const status = normalizedStatus(info);
   const box = $("scheduleTable");
+  if (status === "unknown") {
+    box.innerHTML = '<div class="empty-state">この日の便・出発時刻はまだ確定できません。</div>';
+    return;
+  }
   if (status === "none") {
     box.innerHTML = '<div class="empty-state">この日のスクールバスは運休です。</div>';
     return;
   }
   if (status === "changed") {
     if (Array.isArray(info.departures) && info.departures.length) {
-      box.innerHTML = scheduleSection("変更後の学校出発時刻", info.departures.map((time, i) => ({ label: `${i + 1}便`, time })));
+      box.innerHTML = scheduleSection("変更後の学校出発時刻", info.departures.map((time, i) => ({ label: info.departure_labels?.[i] || `${i + 1}便`, time })));
     } else {
       box.innerHTML = '<div class="empty-state">時刻に変更があります。公式PDFで変更後の時刻をご確認ください。</div>';
     }
@@ -196,6 +203,11 @@ function renderAll() {
   renderHero(state.selectedDate);
   renderSchedule(state.selectedDate);
   renderMeta();
+  const updated = $("dataUpdatedAt");
+  if (updated) {
+    const date = new Date(state.data?.generated_at);
+    updated.textContent = Number.isNaN(date.getTime()) ? "取得日時を確認できません" : new Intl.DateTimeFormat("ja-JP", { year: "numeric", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Tokyo" }).format(date);
+  }
 }
 
 async function boot() {
@@ -206,14 +218,20 @@ async function boot() {
       state.data = bundledData;
     } else {
       try {
-        const response = await fetch(`./data/schedule.json?v=${Date.now()}`, { cache: "no-store" });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        state.data = await response.json();
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 15000);
+        let response;
+        try {
+          response = await fetch(`./data/schedule.json?v=${Date.now()}`, { cache: "no-store", signal: controller.signal });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          state.data = await response.json();
+        } finally { clearTimeout(timeout); }
       } catch (error) {
         if (!bundledData) throw error;
         state.data = bundledData;
       }
     }
+    if (!state.data?.routes?.hainan || typeof state.data.routes.hainan !== "object") throw new Error("Invalid schedule data");
     // Show only the current month and the following month.
     state.shownMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
     state.selectedDate = new Date();
@@ -221,7 +239,21 @@ async function boot() {
   } catch (error) {
     const notice = $("dataNotice");
     notice.className = "notice error";
-    notice.textContent = "データを読み込めませんでした。再読み込みするか、公式サイトを確認してください。";
+    notice.replaceChildren();
+    const message = document.createElement("p");
+    message.textContent = "データを読み込めませんでした。通信状況を確認して、もう一度お試しください。";
+    const retry = document.createElement("button");
+    retry.type = "button";
+    retry.className = "retry-button";
+    retry.textContent = "もう一度読み込む";
+    retry.addEventListener("click", () => { retry.disabled = true; retry.textContent = "読み込み中…"; boot(); });
+    notice.append(message, retry);
+    $("heroTitle").textContent = "読込失敗";
+    $("heroDate").textContent = jpDate(new Date());
+    const source = $("sourceLink");
+    source.href = "https://www.fgmeisei.ed.jp/";
+    source.textContent = "公式サイト ↗";
+    source.classList.remove("hidden");
     console.error(error);
   }
 }
