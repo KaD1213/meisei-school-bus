@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-11-05T23:39:18.314040+00:00",
+  "generated_at": "2026-11-06T02:41:48.399Z",
   "source_site": "https://www.fgmeisei.ed.jp/",
   "routes": {
     "hainan": {
@@ -426,13 +426,31 @@
           "status": "changed",
           "mode": "A",
           "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年11月-順心作成-.pdf",
-          "note": "変更後の時刻は公式PDFを確認してください。"
+          "departures": [
+            "13:30",
+            "17:10",
+            "19:20"
+          ],
+          "departure_labels": [
+            "1便",
+            "2便",
+            "3便"
+          ]
         },
         "2026-11-20": {
           "status": "changed",
           "mode": "A",
           "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年11月-順心作成-.pdf",
-          "note": "変更後の時刻は公式PDFを確認してください。"
+          "departures": [
+            "13:30",
+            "17:10",
+            "19:20"
+          ],
+          "departure_labels": [
+            "1便",
+            "2便",
+            "3便"
+          ]
         },
         "2026-11-21": {
           "status": "special",
@@ -591,13 +609,31 @@
               "status": "changed",
               "mode": "A",
               "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年11月-順心作成-.pdf",
-              "note": "変更後の時刻は公式PDFを確認してください。"
+              "departures": [
+                "13:30",
+                "17:10",
+                "19:20"
+              ],
+              "departure_labels": [
+                "1便",
+                "2便",
+                "3便"
+              ]
             },
             "2026-11-20": {
               "status": "changed",
               "mode": "A",
               "source_url": "https://www.fgmeisei.ed.jp/wp-content/uploads/御前崎便2026年11月-順心作成-.pdf",
-              "note": "変更後の時刻は公式PDFを確認してください。"
+              "departures": [
+                "13:30",
+                "17:10",
+                "19:20"
+              ],
+              "departure_labels": [
+                "1便",
+                "2便",
+                "3便"
+              ]
             },
             "2026-11-21": {
               "status": "special",

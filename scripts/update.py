@@ -31,6 +31,13 @@ DATA = ROOT / "data" / "schedule.json"
 BASE = "https://www.fgmeisei.ed.jp/"
 UA = "MeiseiBusScheduleBot/2.0"
 
+# Confirmed by the student: both dates follow the same three-departure
+# timetable as November 18, 2026. Keep this correction across automatic runs.
+USER_CONFIRMED_DATE_COPIES = {
+    "2026-11-19": "2026-11-18",
+    "2026-11-20": "2026-11-18",
+}
+
 session = requests.Session()
 session.headers.update({"User-Agent": UA})
 
@@ -236,6 +243,13 @@ def main():
                 route = new["routes"][route_key]
                 digest = hashlib.sha256(content).hexdigest()
                 overrides = parse_calendar_pdf(content, year, month, url)
+                for day_key, reference_key in USER_CONFIRMED_DATE_COPIES.items():
+                    if not day_key.startswith(month_id + "-"):
+                        continue
+                    reference = overrides.get(reference_key)
+                    if (reference and reference.get("status") == "changed"
+                            and len(reference.get("departures", [])) == 3):
+                        overrides[day_key] = {**reference, "source_url": url}
                 parser_status = "coordinate_calendar"
                 monthly = {
                     "coverage_month": month_id,
